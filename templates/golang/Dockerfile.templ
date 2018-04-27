@@ -1,0 +1,16 @@
+FROM golang:1.9.2 as builder
+
+RUN mkdir -p /go/src/{{ .PackageName }}
+WORKDIR  /go/src/{{ .PackageName }}
+
+RUN go get -u github.com/golang/dep/cmd/dep 
+COPY . .
+RUN dep ensure -v
+RUN make build
+
+FROM alpine:latest
+RUN apk --no-cache add ca-certificates
+WORKDIR /root/
+RUN mkdir -p public
+COPY --from=builder /go/src/{{ .PackageName }}/{{ .ApplicationName }} .
+ENTRYPOINT [ "./{{ .ApplicationName }}" ]

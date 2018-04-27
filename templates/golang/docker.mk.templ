@@ -1,8 +1,8 @@
-VERSION=$(shell cat ./VERSION.txt)
+VERSION=$(shell cat ./{{ .VersionFileName }})
 
 # Docker settings (make sure DOCKER_REGISTRY environment variable is set)
 DOCKERFILE:=Dockerfile
-IMAGE_NAME=semver-svc
+IMAGE_NAME={{ .ApplicationName }}
 REGISTRY_NAME:=$(DOCKER_REGISTRY)
 SVC_IMAGE_NAME=$(REGISTRY_NAME)/$(IMAGE_NAME):$(VERSION)
 
