@@ -5,6 +5,7 @@ import (
 	"html/template"
 
 	"github.com/peterj/create-k8s-app/internal/artifacts"
+	gotemplates "github.com/peterj/create-k8s-app/internal/artifacts/golang/templates"
 	"github.com/peterj/create-k8s-app/internal/utils"
 	"github.com/pkg/errors"
 )
@@ -23,15 +24,20 @@ type ProjectInfo struct {
 	VersionFileName string
 }
 
+// NewGolangProjectFile creates a new project file for Golang
+func NewGolangProjectFile(template, targetFileName string) *artifacts.ProjectFile {
+	return artifacts.NewProjectFile(template, targetFileName, "golang")
+}
+
 // NewProjectLayout creates a new project layout for a Go project
 func NewProjectLayout(project *ProjectInfo) (artifacts.LayoutCreator, error) {
 	projectFiles := []*artifacts.ProjectFile{
-		NewGolangProjectFile("Makefile.templ", "Makefile"),
-		NewGolangProjectFile("VERSION.txt.templ", "VERSION.txt"),
-		NewGolangProjectFile("Dockerfile.templ", "Dockerfile"),
-		NewGolangProjectFile("version.go.templ", "version/version.go"),
-		NewGolangProjectFile("docker.mk.templ", "docker.mk"),
-		NewGolangProjectFile("main.go.templ", "main.go"),
+		NewGolangProjectFile(gotemplates.Makefile, "Makefile"),
+		NewGolangProjectFile(gotemplates.VersionTxtFile, "VERSION.txt"),
+		NewGolangProjectFile(gotemplates.Dockerfile, "Dockerfile"),
+		NewGolangProjectFile(gotemplates.VersionGo, "version/version.go"),
+		NewGolangProjectFile(gotemplates.DockerMkFile, "docker.mk"),
+		NewGolangProjectFile(gotemplates.MainGo, "main.go"),
 	}
 	return &ProjectLayout{
 		Files:       projectFiles,
@@ -39,27 +45,8 @@ func NewProjectLayout(project *ProjectInfo) (artifacts.LayoutCreator, error) {
 	}, nil
 }
 
-// GetTemplatePaths gets an array of template paths for the
-// project files in the layout
-func (p *ProjectLayout) GetTemplatePaths() ([]string, error) {
-	var paths []string
-	for _, f := range p.Files {
-		path, err := f.GetTemplateFullPath()
-		if err != nil {
-			return []string{}, errors.Wrap(err, "GetTemplatePaths")
-		}
-		paths = append(paths, path)
-	}
-	return paths, nil
-}
-
 // Create will write files in project layout to the output folder
 func (p *ProjectLayout) Create(outputFolder string) error {
-	projectFilePaths, err := p.GetTemplatePaths()
-	if err != nil {
-		return errors.Wrap(err, "Create")
-	}
-
 	// Get the output path by appending the output folder to
 	// the current working folder
 	outputPath, err := utils.FullPath(outputFolder)
@@ -67,16 +54,20 @@ func (p *ProjectLayout) Create(outputFolder string) error {
 		return errors.Wrap(err, "Create")
 	}
 
-	t := template.Must(template.New(p.Files[0].TemplateName).ParseFiles(projectFilePaths...))
 	for _, f := range p.Files {
+		tmpl := template.New("tmpl")
+		tmpl, err := tmpl.Parse(f.Template)
+		if err != nil {
+			return errors.Wrap(err, "Create")
+		}
+
 		var result bytes.Buffer
-		if err := t.ExecuteTemplate(&result, f.TemplateName, p.ProjectInfo); err != nil {
+		if err := tmpl.ExecuteTemplate(&result, "tmpl", p.ProjectInfo); err != nil {
 			return errors.Wrap(err, "Create")
 		}
 		if err := f.Write(outputPath, result.Bytes()); err != nil {
 			return errors.Wrap(err, "Create")
 		}
-
 	}
 	return nil
 }

@@ -12,26 +12,17 @@ import (
 // ProjectFile represents a file that's part of a project
 type ProjectFile struct {
 	Language           string
-	TemplateName       string
+	Template           string
 	TargetFileNamePath string
 }
 
 // NewProjectFile creates a new project file
-func NewProjectFile(templateName, targetFileName, language string) *ProjectFile {
+func NewProjectFile(template, targetFileName, language string) *ProjectFile {
 	return &ProjectFile{
-		TemplateName:       templateName,
+		Template:           template,
 		TargetFileNamePath: targetFileName,
 		Language:           language,
 	}
-}
-
-// GetTemplateFullPath gets the full path to the template
-func (p *ProjectFile) GetTemplateFullPath() (string, error) {
-	path, err := utils.FullPath("templates", p.Language, p.TemplateName)
-	if err != nil {
-		return "", errors.Wrap(err, "GetTemplateFullPath")
-	}
-	return path, nil
 }
 
 // Write writes contents to the project file
