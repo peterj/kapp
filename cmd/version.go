@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"runtime"
 
-	"github.com/peterj/vsv/version"
+	"github.com/peterj/kapp/version"
 	"github.com/spf13/cobra"
 )
 
