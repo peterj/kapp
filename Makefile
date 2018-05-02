@@ -1,5 +1,5 @@
-NAME:=create-k8s-app
-PKG:=github.com/peterj/create-k8s-app
+NAME:=kapp
+PKG:=github.com/peterj/kapp
 GOOSARCHES=darwin/amd64
 VERSION_FILE:=VERSION.txt
 

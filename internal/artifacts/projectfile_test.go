@@ -3,7 +3,7 @@ package artifacts_test
 import (
 	"testing"
 
-	. "github.com/peterj/create-k8s-app/internal/artifacts"
+	. "github.com/peterj/kapp/internal/artifacts"
 )
 
 const succeeded = "\u2713"
@@ -14,22 +14,25 @@ func TestProjectFile(t *testing.T) {
 		testName           string
 		template           string
 		targetFileNamePath string
-		language           string
+		delimLeft          string
+		delimRight         string
 	}{
 		{
 			testName:           "create ProjectFile instance",
 			template:           "Contents of the template are here",
 			targetFileNamePath: "somefile.txt",
-			language:           "golang",
+			delimLeft:          "{{",
+			delimRight:         "}}",
 		},
 	}
 
 	t.Log("Give the need to test project file creation")
 	{
+		defaultDelims := NewDefaultDelims()
 		for i, tst := range tt {
 			t.Logf("\tTest %d: \t%s", i, tst.testName)
 			{
-				projectFile := NewProjectFile(tst.template, tst.targetFileNamePath, tst.language)
+				projectFile := NewProjectFile(tst.template, tst.targetFileNamePath, defaultDelims)
 				if projectFile.Template != tst.template {
 					t.Fatalf("\t%s\tShould have the correct template contents : exp[%s] got[%s]\n", failed, tst.template, projectFile.Template)
 				}
@@ -40,10 +43,16 @@ func TestProjectFile(t *testing.T) {
 				}
 				t.Logf("\t%s\tShould have the correct target filename path\n", succeeded)
 
-				if projectFile.Language != tst.language {
-					t.Fatalf("\t%s\tShould have the correct language : exp[%s] got[%s]\n", failed, tst.language, projectFile.Language)
+				if projectFile.Delimiters.Left != tst.delimLeft {
+					t.Fatalf("\t%s\tShould have the correct left delimiters : exp[%s] got[%s]\n", failed, tst.delimLeft, projectFile.Delimiters.Left)
 				}
-				t.Logf("\t%s\tShould have the correct language\n", succeeded)
+				t.Logf("\t%s\tShould have the correct left delimiters\n", succeeded)
+
+				if projectFile.Delimiters.Right != tst.delimRight {
+					t.Fatalf("\t%s\tShould have the correct right delimiters : exp[%s] got[%s]\n", failed, tst.delimRight, projectFile.Delimiters.Right)
+				}
+				t.Logf("\t%s\tShould have the correct right delimiters\n", succeeded)
+
 			}
 		}
 	}

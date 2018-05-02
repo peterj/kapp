@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"flag"
-	"fmt"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -17,7 +16,7 @@ func init() {
 }
 
 var rootCmd = &cobra.Command{
-	Use:   "create-k8s-app",
+	Use:   "kapp",
 	Short: "Create Kubernetes App is a tool for creating simple services that run on Kubernetes",
 	Long: `Create Kubernetes App helps you jump start your Kubernetes services by creating all
 necessary files that are need for getting your service up and running in Kubernetes.`,
@@ -29,7 +28,6 @@ necessary files that are need for getting your service up and running in Kuberne
 // Execute runs the command
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
-		fmt.Println(err)
 		os.Exit(1)
 	}
 }

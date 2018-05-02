@@ -5,7 +5,7 @@ import (
 	"path"
 	"testing"
 
-	. "github.com/peterj/create-k8s-app/internal/utils"
+	. "github.com/peterj/kapp/internal/utils"
 )
 
 const succeeded = "\u2713"
