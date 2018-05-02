@@ -1,36 +1,39 @@
 # Create *K*ubernetes _app_ (`kapp`)
 
-Create Go apps that run on Kubernetes without any configuration. Inspiration for
-this project came from
+Create Go apps/services that run on Kubernetes with minimal configuration.
+Inspiration for this project came from
 [create-react-app](https://github.com/facebook/create-react-app) project.
 
 *   [Creating an App](#creating-an-app) - How to create a new Kubernetes app
 
-`kapp` was developed and tested on macOS. There's no guarantee that it works on
+Tool was developed and tested on macOS. There's no guarantee that it works on
 other platforms. If you run into any issues, please
 [file them](https://github.com/peterj/kapp/issues/new).
 
-Note: The project currently only supports Go. Please
+_Note_: At the moment project only supports Go. Please
 [file an issue](https://github.com/peterj/kapp/issues/new) if you'd like to see
-support for other languages
+support for other languages and/or send a PR.
 
 # Quick Overview
 
 ```bash
-# Create an app called helloworld
+# Creates an app called helloworld
 kapp create helloworld --package github.com/peterj/helloworld
 
-# Initialize the Git repo
+# Initialize the Git repo and make an inital commit
 cd helloworld
-git init
+git init && git add * && git commit -am 'inital commit'
+
+# Initialize Dep
+dep init
 
 # Build the app
 make all
 ```
 
-Run the app `./helloworld` and access it at http://localhost:8080/.
+Run the app with `./helloworld` and access it at http://localhost:8080/.
 
-TODO: ADD SCREEN CAST HERE
+![kapp demo GIT](img/kapp-create.gif)
 
 ## Creating an app
 
@@ -40,7 +43,7 @@ To create a new Kubernetes app, run the following command:
 kapp create helloworld --package github.com/[username]/helloworld
 ```
 
-_Note: the package name is required in order to probably configure the generated
+_Note: the package name is required in order to properly configure the generated
 files._
 
 The command above will create a folder called `helloworld` in the current
@@ -68,7 +71,8 @@ helloworld
 
 ## Development workflow
 
-The inital workflow for deploying/updating your app involves these steps:
+The inital workflow for getting your app running in Kubernetes involves these
+steps:
 
 1.  Build the app image
 2.  Push the app image to the registry

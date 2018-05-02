@@ -123,7 +123,7 @@ var createCmd = &cobra.Command{
 		}
 		fmt.Printf("Done.")
 		fmt.Printf("\n\nGet started:\n  %s\n  %s\n  %s\n  %s\n", green(fmt.Sprintf("cd %s", appFolder)), green("git init && git add * && git commit -am 'inital commit'"), green("dep init"), green("make all"))
-		fmt.Printf("\nNote: Refer to README.md (%s) for explanation of how to build and push Docker image and deploy to Kubernetes", green("https://github.com/peterj/kapp/blob/master/README.md"))
+		fmt.Printf("\nNote: Refer to README.md (%s) for explanation of how to build and push Docker image and deploy to Kubernetes\n\n", green("https://github.com/peterj/kapp/blob/master/README.md"))
 
 		return nil
 	},

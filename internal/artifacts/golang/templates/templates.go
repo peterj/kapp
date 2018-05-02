@@ -163,7 +163,7 @@ import (
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	w.Write([]byte("Hello"))
+	w.Write([]byte("Hello\n"))
 }
 
 func healthHandler(w http.ResponseWriter, r *http.Request) {
