@@ -42,6 +42,18 @@ test:
 	@echo "-> $@"
 	@go test -v $(shell go list ./... | grep -v vendor)
 
+# Runs tests with coverage
+.PHONY: cover
+cover:
+	@echo "" > coverage.txt
+	@for d in $(shell go list ./... | grep -v vendor); do \
+		go test -race -coverprofile=profile.out -covermode=atomic "$$d"; \
+		if [ -f profile.out ]; then \
+			cat profile.out >> coverage.txt; \
+			rm profile.out; \
+		fi; \
+	done;
+
 # Runs govet
 .PHONY: vet
 vet:
