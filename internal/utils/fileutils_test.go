@@ -95,4 +95,49 @@ func TestFileUtils(t *testing.T) {
 			}
 		}
 	}
+
+	createFolderTests := []struct {
+		testName       string
+		inputPath      string
+		expectedFolder string
+	}{
+		{
+			testName:       "single folder, single file",
+			inputPath:      "somefolder/file.txt",
+			expectedFolder: "somefolder",
+		},
+		{
+			testName:       "single folder",
+			inputPath:      "myfolder",
+			expectedFolder: "myfolder",
+		},
+		{
+			testName:       "multiple folders",
+			inputPath:      "subfold1/subfold2/",
+			expectedFolder: "subfold1/subfold2",
+		},
+		{
+			testName:       "multiple folders with a file",
+			inputPath:      "subfold1/subfold2/myfile.txt",
+			expectedFolder: "subfold1/subfold2",
+		},
+	}
+	t.Log("Given the need to test create folder functionality")
+	{
+		for i, tst := range createFolderTests {
+			t.Logf("\tTest %d: \t%s", i, tst.testName)
+			{
+				tempFolder := os.TempDir()
+				os.Chdir(tempFolder)
+				CreateFolder(tst.inputPath)
+
+				pathToTest := path.Join(tempFolder, tst.expectedFolder)
+				_, err := os.Stat(pathToTest)
+				if err != nil {
+					t.Fatalf("\t%s\tFolder should exist : exp[%s] got[%s]\n", failed, tst.expectedFolder, pathToTest)
+				}
+				t.Logf("\t%s\tCorrect folder should exist\n", succeeded)
+			}
+		}
+	}
 }
