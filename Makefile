@@ -1,5 +1,8 @@
+CURRENT_DIR?=$(shell pwd)
+BUILDDIR:=$(CURRENT_DIR)/release
+
 NAME:=kapp
-PKG:=github.com/peterj/kapp
+PKG:=github.com/peterj/$(NAME)
 GOOSARCHES=darwin/amd64
 VERSION_FILE:=VERSION.txt
 
@@ -69,3 +72,24 @@ bump-version:
 	echo $(NEW_VERSION) > VERSION.txt
 	git add VERSION.txt README.md
 	git commit -vsam "Bump version to $(NEW_VERSION)"
+
+# Create a new git tag to prepare to build a release
+.PHONY: tag
+tag:
+	git tag -sa $(VERSION) -m "$(VERSION)"
+	@echo "Run git push origin $(VERSION) to push your new tag to GitHub and trigger build."
+
+define buildrelease
+GOOS=$(1) GOARCH=$(2) CGO_ENABLED=1 go build \
+	 -o $(BUILDDIR)/$(NAME)-$(1)-$(2) \
+	 -a -tags "$(BUILDTAGS) static_build netgo" \
+	 -installsuffix netgo ${GO_LDFLAGS_STATIC} .;
+md5sum $(BUILDDIR)/$(NAME)-$(1)-$(2) > $(BUILDDIR)/$(NAME)-$(1)-$(2).md5;
+shasum -a 256 $(BUILDDIR)/$(NAME)-$(1)-$(2) > $(BUILDDIR)/$(NAME)-$(1)-$(2).sha256;
+endef
+
+# Builds the cross-compiled binaries, naming them in such a way for release (eg. binary-GOOS-GOARCH)
+.PHONY: release
+release: *.go VERSION.txt
+	@echo "+ $@"
+	$(foreach GOOSARCH,$(GOOSARCHES), $(call buildrelease,$(subst /,,$(dir $(GOOSARCH))),$(notdir $(GOOSARCH))))
