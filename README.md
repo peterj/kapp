@@ -1,5 +1,7 @@
 # Create *K*ubernetes _app_ (`kapp`)
 
+[![Build Status](https://travis-ci.com/peterj/kapp.svg?token=psuxo9E6FHxn2xQpqMqg&branch=master)](https://travis-ci.com/peterj/kapp)
+
 Create Go apps/services that run on Kubernetes with minimal configuration.
 Inspiration for this project came from
 [create-react-app](https://github.com/facebook/create-react-app) project.
