@@ -1,6 +1,6 @@
 # Create *K*ubernetes _app_ (`kapp`)
 
-[![Build Status](https://travis-ci.com/peterj/kapp.svg?token=psuxo9E6FHxn2xQpqMqg&branch=master)](https://travis-ci.com/peterj/kapp)
+[![Build Status](https://travis-ci.org/peterj/kapp.svg?branch=master)](https://travis-ci.org/peterj/kapp)
 [![codecov](https://codecov.io/gh/peterj/kapp/branch/master/graph/badge.svg)](https://codecov.io/gh/peterj/kapp)
 
 Create Go apps/services that run on Kubernetes with minimal configuration.
