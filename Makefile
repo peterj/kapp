@@ -27,6 +27,12 @@ build:
 	@echo "-> $@"
 	CGO_ENABLED=0 go build -i -installsuffix cgo ${GO_LDFLAGS} -o $(NAME) .
 
+# Installs the binary
+.PHONY: install
+install:
+	@echo "+ $@"
+	go install -a -tags "$(BUILDTAGS)" ${GO_LDFLAGS} .
+
 # Gofmts all code (sans vendor folder) just in case not using automatic formatting
 .PHONY: fmt
 fmt: 
