@@ -1,6 +1,7 @@
 # Create *K*ubernetes _app_ (`kapp`)
 
 [![Build Status](https://travis-ci.com/peterj/kapp.svg?token=psuxo9E6FHxn2xQpqMqg&branch=master)](https://travis-ci.com/peterj/kapp)
+[![codecov](https://codecov.io/gh/peterj/kapp/branch/master/graph/badge.svg)](https://codecov.io/gh/peterj/kapp)
 
 Create Go apps/services that run on Kubernetes with minimal configuration.
 Inspiration for this project came from
@@ -94,9 +95,10 @@ steps:
 2.  [Push the app image to the registry](#push-the-image)
 3.  [Create intial app release (first deployment)](#first-deployment)
 4.  [Interact with the app](#interact-with-the-app)
-5.  Deploy app updates
+5.  [Deploy app updates](#deploy-app-upgrades)
 
-After you have created the inital release (step #3) you will be
+After you have created the inital release (step #3) you can continue with this
+[workflow](#deploy-app-upgrades)
 
 #### Build the image
 
@@ -227,7 +229,7 @@ Hello
 
 As part of your dev workflow, you will be making changes to your app and you
 would want to deploy those changes and test the app out. Let's say we updated
-the code in `main.go` to write out `Hello World` instead of just `Hello`. After
+the code in `main.go` to return `Hello World` instead of just `Hello`. After
 you've built your app (e.g. `make all`), the sequence of commands to deploy the
 updated app would be something like this:
 
