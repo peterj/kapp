@@ -9,6 +9,7 @@ Inspiration for this project came from
 
 *   [Quick Overview](#quick-overview)
 *   [Prerequisites](#prerequisites)
+*   [Installation](#installation)
 *   [Creating an App](#creating-an-app) - How to create a new Kubernetes app
 *   [Development Workflow](#development-workflow)
 
@@ -16,9 +17,9 @@ Tool was developed and tested on macOS. There's no guarantee that it works on
 other platforms. If you run into any issues, please
 [file them](https://github.com/peterj/kapp/issues/new).
 
-_Note_: At the moment project only supports Go. Please
-[file an issue](https://github.com/peterj/kapp/issues/new) if you'd like to see
-support for other languages and/or send a PR.
+> **Note**: At the moment, project only supports Go. Please
+> [file an issue](https://github.com/peterj/kapp/issues/new) if you'd like to
+> see support for other languages and/or [send a PR](CONTRIBUTING).
 
 # Quick Overview
 
@@ -53,7 +54,18 @@ Run the app with `./helloworld` and access it at http://localhost:8080/.
     [Minikube](https://github.com/kubernetes/minikube) or an actual cluster from
     one of the cloud providers
 
-## Creating an app
+# Installation
+
+You can download the latest binary from the
+[Releases page](https://github.com/peterj/kapp/releases). Alternatively, you can
+use `go get` and install `kapp` like that:
+
+```bash
+go get github.com/peterj/kapp
+make install
+```
+
+# Creating an app
 
 To create a new Kubernetes app, run the following command:
 
@@ -87,7 +99,7 @@ helloworld
     └── version.go
 ```
 
-## Development workflow
+# Development workflow
 
 The inital workflow for getting your app running in Kubernetes involves these
 steps:
@@ -101,7 +113,7 @@ steps:
 After you have created the inital release (step #3) you can continue with this
 [workflow](#deploy-app-upgrades)
 
-#### Build the image
+## Build the image
 
 Makefile task `build.image` can be used to build the Docker image that contains
 your app and tag that image. Note that before you run `make build.image`, you
@@ -130,7 +142,7 @@ docker build -f  Dockerfile -t  kubeapp/helloworld:0.1.0 .
 Successfully tagged kubeapp/helloworld:0.1.0
 ```
 
-#### Push the image
+## Push the image
 
 With image built, you can use `make push.image` task to push the built image to
 the registry:
@@ -144,7 +156,7 @@ The push refers to repository [docker.io/kubeapp/helloworld]
 0.1.0: digest: sha256:b13772ff86c9f2691bfd56a6cbdc73d3456886f8b85385a43699706f0471c866 size: 1156
 ```
 
-#### First deployment
+## First deployment
 
 Task `install.app` is used to create an inital installation/deployment of your
 app to Kubernetes. Before running this task, you need to ensure you have Helm
@@ -199,7 +211,7 @@ NAME                DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
 deploy/helloworld   1         1         1            1           2m
 ```
 
-#### Interact with the app
+## Interact with the app
 
 Now that your app is deployed and running in Kubernetes, you can interact with
 it. There are a couple of different ways you could interact with the app, the
@@ -226,7 +238,7 @@ $ curl helloworld.helloworld.svc.cluster.local
 Hello
 ```
 
-#### Deploy app upgrades
+## Deploy app upgrades
 
 As part of your dev workflow, you will be making changes to your app and you
 would want to deploy those changes and test the app out. Let's say we updated
@@ -244,11 +256,11 @@ $ make upgrade
 
 Now if you try to access the app you should get back `Hello World`.
 
-## Contributing
+# Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for more information on how to get
 started contributing to `kapp`.
 
-## License
+# License
 
 `kapp` is open source software [licensed as MIT](LICENSE).
