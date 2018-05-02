@@ -7,6 +7,7 @@ Create Go apps/services that run on Kubernetes with minimal configuration.
 Inspiration for this project came from
 [create-react-app](https://github.com/facebook/create-react-app) project.
 
+*   [Quick Overview](#quick-overview)
 *   [Prerequisites](#prerequisites)
 *   [Creating an App](#creating-an-app) - How to create a new Kubernetes app
 *   [Development Workflow](#development-workflow)
