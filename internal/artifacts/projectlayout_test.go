@@ -21,7 +21,7 @@ func TestProjectLayout(t *testing.T) {
 				DockerRepository: "dockerrepo",
 			},
 			projectFiles: []*ProjectFile{
-				&ProjectFile{
+				{
 					Delimiters: &Delims{
 						Left:  "{{",
 						Right: "}}",
@@ -29,7 +29,7 @@ func TestProjectLayout(t *testing.T) {
 					TargetFileNamePath: "firstfile",
 					Template:           "template",
 				},
-				&ProjectFile{
+				{
 					Delimiters: &Delims{
 						Left:  "{{",
 						Right: "}}",
