@@ -1,6 +1,8 @@
 package artifacts_test
 
 import (
+	"os"
+	"path"
 	"testing"
 
 	. "github.com/peterj/kapp/internal/artifacts"
@@ -23,7 +25,7 @@ func TestProjectInfo(t *testing.T) {
 		},
 	}
 
-	t.Log("Give the need to test project info creation")
+	t.Log("Given the need to test project info creation")
 	{
 		for i, tst := range tt {
 			t.Logf("\tTest %d: \t%s", i, tst.testName)
@@ -51,5 +53,24 @@ func TestProjectInfo(t *testing.T) {
 				t.Logf("\t%s\tShould have the correct version file name\n", succeeded)
 			}
 		}
+	}
+
+	t.Log("Given the need to test writing to a file")
+	{
+		fileName := "targetfile.txt"
+		fileContents := []byte("file contents")
+
+		p := NewProjectFile("template", fileName, NewDefaultDelims())
+		tempFolder := os.TempDir()
+
+		// Write to the file
+		p.Write(tempFolder, fileContents)
+
+		targetFilePath := path.Join(tempFolder, fileName)
+		_, err := os.Stat(targetFilePath)
+		if err != nil {
+			t.Fatalf("\t%s\tFile should exist : exp[%s] got[%s]\n", failed, targetFilePath, err.Error())
+		}
+		t.Logf("\t%s\tCorrect file should exist\n", succeeded)
 	}
 }
