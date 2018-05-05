@@ -13,6 +13,7 @@ import (
 	"github.com/peterj/kapp/internal/artifacts"
 
 	"github.com/fatih/color"
+	"github.com/peterj/kapp/internal/artifacts/dockermake"
 	"github.com/peterj/kapp/internal/artifacts/golang"
 
 	"github.com/spf13/cobra"
@@ -104,6 +105,10 @@ var createCmd = &cobra.Command{
 				}
 
 				for _, e := range helm.ProjectFiles(ApplicationName) {
+					allFiles = append(allFiles, e)
+				}
+
+				for _, e := range dockermake.ProjectFiles() {
 					allFiles = append(allFiles, e)
 				}
 
