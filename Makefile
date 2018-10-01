@@ -72,7 +72,7 @@ vet:
 # Bumps the version of the service
 .PHONY: bump-version
 bump-version:
-	$(eval NEW_VERSION = $(echo $(VERSION) | awk -F. '{$NF+=1; OFS=FS} {$1 = $1; printf "%s",$0}'))
+	$(eval NEW_VERSION = $(shell echo $(VERSION) | awk -F. '{$NF+=1; OFS=FS} {$1 = $1; printf "%s",$0}'))
 	@echo "Bumping VERSION.txt from $(VERSION) to $(NEW_VERSION)"
 	echo $(NEW_VERSION) > VERSION.txt
 	git add VERSION.txt README.md
