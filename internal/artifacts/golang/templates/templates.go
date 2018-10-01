@@ -57,9 +57,8 @@ vet:
 
 # Bumps the version of the service
 .PHONY: bump-version
-BUMP := patch
 bump-version:
-	$(eval NEW_VERSION = $(shell curl https://bump.semver.xyz/$(BUMP)?version=$(VERSION)))
+	$(eval NEW_VERSION = $(shell echo $(VERSION) | awk -F. '{$NF+=1; OFS=FS} {$1 = $1; printf "%s",$0}'))
 	@echo "Bumping VERSION.txt from $(VERSION) to $(NEW_VERSION)"
 	echo $(NEW_VERSION) > VERSION.txt
 	git commit -vsam "Bump version to $(NEW_VERSION)"`
