@@ -66,6 +66,11 @@ go get github.com/peterj/kapp
 make install
 ```
 
+Alternatively, you can install kapp using `homebrew` on a mac.
+``` bash
+brew install peterj/kapp/kapp
+```
+
 # Creating an app
 
 To create a new Kubernetes app, run the following command:
