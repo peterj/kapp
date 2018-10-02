@@ -1,4 +1,4 @@
-# Create *K*ubernetes _app_ (`kapp`)
+# [Create *K*ubernetes _app_ (`kapp`)](https://peterj.github.io/kapp/)
 
 [![Build Status](https://travis-ci.org/peterj/kapp.svg?branch=master)](https://travis-ci.org/peterj/kapp)
 [![GitHub release](https://img.shields.io/github/release/peterj/kapp/all.svg)](https://github.com/peterj/kapp/releases)
