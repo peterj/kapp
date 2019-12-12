@@ -84,18 +84,22 @@ working folder. The structure of the created Go project looks like this:
 
 ```
 helloworld
-├── .gitignore
 ├── Dockerfile
 ├── Makefile
 ├── VERSION.txt
 ├── docker.mk
+├── go.mod
+├── go.sum
 ├── helm
 │   └── helloworld
 │       ├── Chart.yaml
 │       ├── templates
 │       │   ├── _helpers.tpl
 │       │   ├── deployment.yaml
-│       │   └── service.yaml
+│       │   ├── service.yaml
+│       │   ├── serviceaccount.yaml
+│       │   └── tests
+│       │       └── test-connection.yaml
 │       └── values.yaml
 ├── main.go
 └── version
@@ -169,24 +173,14 @@ to the cluster you want to deploy the app to.
 ```bash
 $ make install.app
 -> install.app
-helm install --name helloworld --namespace helloworld --set=image.repository=kubeapp/helloworld --set=image.tag=0.1.0 helm/helloworld
-NAME:   helloworld
-LAST DEPLOYED: Tue May  1 16:25:54 2018
+kubectl create ns helloworld
+namespace/helloworld created
+helm install helloworld helm/helloworld --namespace helloworld --set=image.repository=pj3677/helloworld
+NAME: helloworld
+LAST DEPLOYED: Wed Dec 11 16:52:01 2019
 NAMESPACE: helloworld
-STATUS: DEPLOYED
-
-RESOURCES:
-==> v1/Service
-NAME        TYPE       CLUSTER-IP      EXTERNAL-IP  PORT(S)  AGE
-helloworld  ClusterIP  10.100.205.117  <none>       80/TCP   0s
-
-==> v1beta1/Deployment
-NAME        DESIRED  CURRENT  UP-TO-DATE  AVAILABLE  AGE
-helloworld  1        1        1           0          0s
-
-==> v1/Pod(related)
-NAME                         READY  STATUS             RESTARTS  AGE
-helloworld-65b5fdc94f-42664  0/1    ContainerCreating  0         0s
+STATUS: deployed
+REVISION: 1
 ```
 
 The `install.app` task will install your application in `helloworld` namespace.
@@ -197,8 +191,8 @@ To double check your app is deployed, run the following Helm command:
 
 ```bash
 $ helm list
-NAME      	REVISION	UPDATED                 	STATUS  	CHART           	NAMESPACE
-helloworld	1       	Tue May  1 16:25:54 2018	DEPLOYED	helloworld-0.1.0	helloworld
+NAME            NAMESPACE       REVISION        UPDATED                                 STATUS          CHART           APP VERSION
+helloblah       default         1               2019-12-11 16:41:18.551571 -0800 PST    deployed        helloblah-0.1.0 0.1.0
 ```
 
 Alternatively, you can use `kubectl` to check the created resources. With the

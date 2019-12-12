@@ -12,3 +12,5 @@ require (
 )
 
 go 1.13
+
+replace github.com/golang/lint => golang.org/x/lint v0.0.0-20191125180803-fdd1cda4f05f

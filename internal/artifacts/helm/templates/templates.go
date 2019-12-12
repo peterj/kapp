@@ -101,14 +101,6 @@ spec:
         - name: http
           containerPort: 80
           protocol: TCP
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: http
-        readinessProbe:
-          httpGet:
-            path: /health
-            port: http
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
     {{- with .Values.nodeSelector }}
