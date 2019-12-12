@@ -16,5 +16,7 @@ func ProjectFiles() []*artifacts.ProjectFile {
 		artifacts.NewProjectFile(gotemplates.VersionGo, "version/version.go", goTemplateDelimiters),
 		artifacts.NewProjectFile(gotemplates.MainGo, "main.go", goTemplateDelimiters),
 		artifacts.NewProjectFile(gotemplates.GitIgnore, ".gitignore", goTemplateDelimiters),
+		artifacts.NewProjectFile(gotemplates.GoModFile, "go.mod", goTemplateDelimiters),
+		artifacts.NewProjectFile(gotemplates.GoSumFile, "go.sum", goTemplateDelimiters),
 	}
 }

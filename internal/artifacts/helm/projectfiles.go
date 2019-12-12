@@ -16,7 +16,10 @@ func ProjectFiles(applicationName string) []*artifacts.ProjectFile {
 		artifacts.NewProjectFile(helmtemplates.HelpersTpl, path.Join(rootFolder, "templates", "_helpers.tpl"), helmDelimiters),
 		artifacts.NewProjectFile(helmtemplates.DeploymentYaml, path.Join(rootFolder, "templates", "deployment.yaml"), helmDelimiters),
 		artifacts.NewProjectFile(helmtemplates.ServiceYaml, path.Join(rootFolder, "templates", "service.yaml"), helmDelimiters),
+		artifacts.NewProjectFile(helmtemplates.ServiceAccountYaml, path.Join(rootFolder, "templates", "serviceaccount.yaml"), helmDelimiters),
+		artifacts.NewProjectFile(helmtemplates.TestConnectionYaml, path.Join(rootFolder, "templates/tests", "test-connection.yaml"), helmDelimiters),
 		artifacts.NewProjectFile(helmtemplates.ChartYaml, path.Join(rootFolder, "Chart.yaml"), helmDelimiters),
 		artifacts.NewProjectFile(helmtemplates.ValuesYaml, path.Join(rootFolder, "values.yaml"), helmDelimiters),
+		artifacts.NewProjectFile(helmtemplates.HelmIgnore, path.Join(rootFolder, ".helmignore"), helmDelimiters),
 	}
 }

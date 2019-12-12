@@ -64,21 +64,21 @@ bump-version:
 	git commit -vsam "Bump version to $(NEW_VERSION)"`
 
 // Dockerfile holds the contents of the Dockerfile
-const Dockerfile = `FROM golang:1.9.2 as builder
+const Dockerfile = `FROM golang:1.13.5-alpine as builder
 
-RUN mkdir -p /go/src/{{ .PackageName }}
-WORKDIR  /go/src/{{ .PackageName }}
+RUN apk add --no-cache ca-certificates git make
+WORKDIR /src
 
-RUN go get -u github.com/golang/dep/cmd/dep 
+COPY go.mod .
+COPY go.sum .
+RUN go mod download
+
 COPY . .
-RUN dep ensure -v
 RUN make build
 
 FROM alpine:latest
-RUN apk --no-cache add ca-certificates
-WORKDIR /root/
-RUN mkdir -p public
-COPY --from=builder /go/src/{{ .PackageName }}/{{ .ApplicationName }} .
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs
+COPY --from=builder /src/{{ .ApplicationName }} {{ .ApplicationName }}
 ENTRYPOINT [ "./{{ .ApplicationName }}" ]`
 
 // VersionGo holds the contents of the version.go file
@@ -90,7 +90,16 @@ var VERSION string
 // GITCOMMIT indicates the git hash binary was built off of
 var GITCOMMIT string`
 
-// MainGo holds the contents of the Main.go file
+// GoModFile holds the contents of the go.mod file.
+const GoModFile = `module {{ .PackageName }}
+
+go 1.13
+`
+
+// GoSumFile holds the contents of the go.sum file.
+const GoSumFile = ``
+
+// MainGo holds the contents of the main.go file
 const MainGo = `package main
 
 import (

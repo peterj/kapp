@@ -26,12 +26,13 @@ endef
 
 # Installs a new Helm chart
 define helm_install
-	helm install --name $(1) --namespace $(2) --set=image.repository=$(3) --set=image.tag=$(4) $(5)
+	kubectl create ns $(3)
+	helm install $(1) $(2) --namespace $(3) --set=image.repository=$(4)
 endef
 
 # Upgrades an existing Helm chart
 define helm_upgrade
-	helm upgrade $(1) --namespace $(2) --set=image.repository=$(3) --set=image.tag=$(4) $(5) --recreate-pods
+	helm upgrade $(1) $(2) --namespace $(3) --set=image.repository=$(4)
 endef
 
 .PHONY: build.image
@@ -47,12 +48,12 @@ push.image:
 .PHONE: install.app
 install.app:
 	@echo "-> $@"
-	$(call helm_install,$(RELEASE_NAME),$(KUBE_NAMESPACE),$(REGISTRY_NAME)/$(IMAGE_NAME),$(VERSION),$(HELM_CHART_NAME))
+	$(call helm_install,$(RELEASE_NAME),$(HELM_CHART_NAME),$(KUBE_NAMESPACE),$(REGISTRY_NAME)/$(IMAGE_NAME))
 
 .PHONY: upgrade.app
 upgrade.app:
 	@echo "-> $@"
-	$(call helm_upgrade,$(RELEASE_NAME),$(KUBE_NAMESPACE),$(REGISTRY_NAME)/$(IMAGE_NAME),$(VERSION),$(HELM_CHART_NAME))
+	$(call helm_upgrade,$(RELEASE_NAME),$(HELM_CHART_NAME),$(KUBE_NAMESPACE),$(REGISTRY_NAME)/$(IMAGE_NAME))
 
 .PHONY: upgrade
 upgrade: build.image push.image upgrade.app

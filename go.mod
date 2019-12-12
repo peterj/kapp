@@ -10,3 +10,5 @@ require (
 	github.com/spf13/pflag v1.0.1 // indirect
 	golang.org/x/sys v0.0.0-20180501092740-78d5f264b493 // indirect
 )
+
+go 1.13

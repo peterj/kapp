@@ -30,10 +30,7 @@ kapp create helloworld --package github.com/peterj/helloworld
 
 # Initialize the Git repo and make an inital commit
 cd helloworld
-git init && git add * && git commit -am 'inital commit'
-
-# Initialize Dep
-dep init
+git init && git add * && git commit -m 'inital commit'
 
 # Build the app
 make all
