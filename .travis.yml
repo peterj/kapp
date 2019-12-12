@@ -1,22 +1,22 @@
 ---
-  language: go
-  sudo: required
-  services:
+language: go
+sudo: required
+services:
   - docker
-  notifications:
-    email: true
-  go:
-    - 1.x
-  matrix:
-    fast_finish: true
-  install:
-    - go get github.com/golang/lint/golint
-  script:
-    - make
-    - go vet $(go list ./... | grep -v vendor)
-    - test -z "$(golint ./... | grep -v vendor | tee /dev/stderr)"
-    - test -z "$(gofmt -s -l . | grep -v vendor | tee /dev/stderr)"
-    - go test $(go list ./... | grep -v vendor)
-    - make cover
-  after_success:
-    - bash <(curl -s https://codecov.io/bash)
+notifications:
+  email: true
+go:
+  - 1.x
+matrix:
+  fast_finish: true
+install:
+  - go get golang.org/x/lint
+script:
+  - make
+  - go vet $(go list ./... | grep -v vendor)
+  - test -z "$(golint ./... | grep -v vendor | tee /dev/stderr)"
+  - test -z "$(gofmt -s -l . | grep -v vendor | tee /dev/stderr)"
+  - go test $(go list ./... | grep -v vendor)
+  - make cover
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
